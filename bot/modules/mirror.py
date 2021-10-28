@@ -244,19 +244,19 @@ class MirrorListener(listeners.MirrorListeners):
                 update_all_messages()
             return
         with download_dict_lock:
-            msg = f'<b>🗂️ Nama File: </b><code>{download_dict[self.uid].name()}</code>\n<b>📦 Ukuran: </b><code>{size}</code>'
+            msg = f'<b>🗂️ 𝐍𝐚𝐦𝐚 𝐅𝐢𝐥𝐞: </b><code>{download_dict[self.uid].name()}</code>\n<b>📦 Ukuran: </b><code>{size}</code>'
             if os.path.isdir(f'{DOWNLOAD_DIR}/{self.uid}/{download_dict[self.uid].name()}'):
-                msg += '\n<b>⚙️ Jenis: </b><code>Folder</code>'
-                msg += f'\n<b>📚 SubFolders: </b><code>{folders}</code>'
-                msg += f'\n<b>📁 Files: </b><code>{files}</code>'
+                msg += '\n<b>⚙️ 𝐉𝐞𝐧𝐢𝐬: </b><code>Folder</code>'
+                msg += f'\n<b>📚 𝐒𝐮𝐛𝐅𝐨𝐥𝐝𝐞𝐫𝐬: </b><code>{folders}</code>'
+                msg += f'\n<b>📁 𝐅𝐢𝐥𝐞𝐬: </b><code>{files}</code>'
             else:
-                msg += f'\n<b>Type: </b><code>{typ}</code>'
+                msg += f'\n<b>⚙️ 𝐉𝐞𝐧𝐢𝐬: </b><code>{typ}</code>'
             buttons = button_build.ButtonMaker()
             if SHORTENER is not None and SHORTENER_API is not None:
                 surl = short_url(link)
-                buttons.buildbutton("🗯 ᴅʀɪᴠᴇ ʟɪɴᴋ 🗯", surl)
+                buttons.buildbutton("🗯 𝐃𝐑𝐈𝐕𝐄 𝐋𝐈𝐍𝐊 🗯", surl)
             else:
-                buttons.buildbutton("🗯 ᴅʀɪᴠᴇ ʟɪɴᴋ 🗯", link)
+                buttons.buildbutton("🗯 𝐃𝐑𝐈𝐕𝐄 𝐋𝐈𝐍𝐊 🗯", link)
             LOGGER.info(f'Done Uploading {download_dict[self.uid].name()}')
             if INDEX_URL is not None:
                 url_path = requests.utils.quote(f'{download_dict[self.uid].name()}')
@@ -265,21 +265,21 @@ class MirrorListener(listeners.MirrorListeners):
                     share_url += '/'
                     if SHORTENER is not None and SHORTENER_API is not None:
                         siurl = short_url(share_url)
-                        buttons.buildbutton("⚜️ ɪɴᴅᴇx ʟɪɴᴋ ⚜️", siurl)
+                        buttons.buildbutton("⚜️ 𝐈𝐍𝐃𝐄𝐗 𝐋𝐈𝐍𝐊 ⚜️", siurl)
                     else:
-                        buttons.buildbutton("⚜️ ɪɴᴅᴇx ʟɪɴᴋ ⚜️", share_url)
+                        buttons.buildbutton("⚜️ 𝐈𝐍𝐃𝐄𝐗 𝐋𝐈𝐍𝐊 ⚜️", share_url)
                 else:
                     share_urls = f'{INDEX_URL}/{url_path}?a=view'
                     if SHORTENER is not None and SHORTENER_API is not None:
                         siurl = short_url(share_url)
-                        buttons.buildbutton("⚜️ ɪɴᴅᴇx ʟɪɴᴋ ⚜️", siurl)
+                        buttons.buildbutton("⚜️ 𝐈𝐍𝐃𝐄𝐗 𝐋𝐈𝐍𝐊 ⚜️", siurl)
                         if VIEW_LINK:
                             siurls = short_url(share_urls)
-                            buttons.buildbutton("🧬 ᴠɪᴇᴡ ʟɪɴᴋ 🧬", siurls)
+                            buttons.buildbutton("🧬 𝐕𝐈𝐄𝐖 𝐋𝐈𝐍𝐊 🧬", siurls)
                     else:
-                        buttons.buildbutton("⚜️ ɪɴᴅᴇx ʟɪɴᴋ ⚜️", share_url)
+                        buttons.buildbutton("⚜️ 𝐈𝐍𝐃𝐄𝐗 𝐋𝐈𝐍𝐊 ⚜️", share_url)
                         if VIEW_LINK:
-                            buttons.buildbutton("🧬 ᴠɪᴇᴡ ʟɪɴᴋ 🧬", share_urls)
+                            buttons.buildbutton("🧬 𝐕𝐈𝐄𝐖 𝐋𝐈𝐍𝐊 🧬", share_urls)
             if BUTTON_FOUR_NAME is not None and BUTTON_FOUR_URL is not None:
                 buttons.buildbutton(f"{BUTTON_FOUR_NAME}", f"{BUTTON_FOUR_URL}")
             if BUTTON_FIVE_NAME is not None and BUTTON_FIVE_URL is not None:
