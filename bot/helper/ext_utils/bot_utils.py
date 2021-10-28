@@ -21,15 +21,15 @@ PAGE_NO = 1
 
 
 class MirrorStatus:
-    STATUS_UPLOADING = "Uploading...📤"
-    STATUS_DOWNLOADING = "Downloading...📥"
-    STATUS_CLONING = "Cloning...♻️"
-    STATUS_WAITING = "Queued...📝"
-    STATUS_FAILED = "Failed 🚫. Cleaning Download..."
-    STATUS_PAUSE = "Paused...⭕️"
-    STATUS_ARCHIVING = "Archiving...🔐"
-    STATUS_EXTRACTING = "Extracting...📂"
-    STATUS_SPLITTING = "Splitting...✂️"
+    STATUS_UPLOADING = "𝐒𝐞𝐝𝐚𝐧𝐠 𝐃𝐢 𝐔𝐩𝐥𝐨𝐚𝐝, 𝐒𝐚𝐛𝐚𝐫 𝐁𝐨𝐬𝐪𝐮...📤"
+    STATUS_DOWNLOADING = "𝐒𝐞𝐝𝐚𝐧𝐠 𝐃𝐢 𝐔𝐧𝐝𝐮𝐡, 𝐒𝐚𝐛𝐚𝐫 𝐁𝐨𝐬𝐪𝐮...📥"
+    STATUS_CLONING = "𝐒𝐞𝐝𝐚𝐧𝐠 𝐃𝐢 𝐂𝐥𝐨𝐧𝐞, 𝐒𝐚𝐛𝐚𝐫 𝐁𝐨𝐬𝐪𝐮...♻️"
+    STATUS_WAITING = "𝐌𝐚𝐬𝐢𝐡 𝐀𝐧𝐭𝐫𝐢, 𝐒𝐚𝐛𝐚𝐫 𝐁𝐨𝐬𝐪𝐮...📝"
+    STATUS_FAILED = "𝐅𝐢𝐥𝐞𝐦𝐮 𝐆𝐚𝐠𝐚𝐥. 𝐘𝐚𝐧𝐠 𝐒𝐚𝐛𝐚𝐫 𝐁𝐨𝐬𝐪𝐮 🚫. 𝐌𝐞𝐧𝐠𝐡𝐚𝐩𝐮𝐬 𝐅𝐢𝐥𝐞..."
+    STATUS_PAUSE = "𝐃𝐢𝐣𝐞𝐝𝐚...⭕️"
+    STATUS_ARCHIVING = "𝐒𝐞𝐝𝐚𝐧𝐠 𝐃𝐢 𝐀𝐫𝐬𝐢𝐩𝐤𝐚𝐧, 𝐒𝐚𝐛𝐚𝐫 𝐁𝐨𝐬𝐪𝐮...🔐"
+    STATUS_EXTRACTING = "𝐒𝐞𝐝𝐚𝐧𝐠 𝐃𝐢 𝐄𝐤𝐬𝐭𝐫𝐚𝐤, 𝐒𝐚𝐛𝐚𝐫 𝐁𝐨𝐬𝐪𝐮...📂"
+    STATUS_SPLITTING = "𝐒𝐞𝐝𝐚𝐧𝐠 𝐃𝐢 𝐏𝐢𝐬𝐚𝐡, 𝐒𝐚𝐛𝐚𝐫 𝐁𝐨𝐬𝐪𝐮...✂️"
 
 
 PROGRESS_MAX_SIZE = 100 // 8
@@ -128,8 +128,8 @@ def get_readable_message():
                 globals()['PAGE_NO'] -= 1
             start = COUNT
         for index, download in enumerate(list(download_dict.values())[start:], start=1):
-            msg += f"<b>Filename:</b> <code>{download.name()}</code>"
-            msg += f"\n<b>Status:</b> <i>{download.status()}</i>"
+            msg += f"<b>📁 𝐍𝐚𝐦𝐚 𝐅𝐢𝐥𝐞:</b> <code>{download.name()}</code>"
+            msg += f"\n<b>⏰ 𝐒𝐭𝐚𝐭𝐮𝐬:</b> <i>{download.status()}</i>"
             if download.status() not in [
                 MirrorStatus.STATUS_ARCHIVING,
                 MirrorStatus.STATUS_EXTRACTING,
@@ -137,23 +137,23 @@ def get_readable_message():
             ]:
                 msg += f"\n<code>{get_progress_bar_string(download)} {download.progress()}</code>"
                 if download.status() == MirrorStatus.STATUS_CLONING:
-                    msg += f"\n<b>Cloned:</b> <code>{get_readable_file_size(download.processed_bytes())}</code> of <code>{download.size()}</code>"
+                    msg += f"\n<b>♻️ 𝐊𝐥𝐨𝐧𝐢𝐧𝐠:</b> <code>{get_readable_file_size(download.processed_bytes())}</code> of <code>{download.size()}</code>"
                 elif download.status() == MirrorStatus.STATUS_UPLOADING:
-                    msg += f"\n<b>Uploaded:</b> <code>{get_readable_file_size(download.processed_bytes())}</code> of <code>{download.size()}</code>"
+                    msg += f"\n<b>🔺 𝐌𝐞𝐧𝐠𝐮𝐧𝐠𝐠𝐚𝐡:</b> <code>{get_readable_file_size(download.processed_bytes())}</code> of <code>{download.size()}</code>"
                 else:
-                    msg += f"\n<b>Downloaded:</b> <code>{get_readable_file_size(download.processed_bytes())}</code> of <code>{download.size()}</code>"
+                    msg += f"\n<b>🔻 𝐌𝐞𝐧𝐠𝐮𝐧𝐝𝐮𝐡:</b> <code>{get_readable_file_size(download.processed_bytes())}</code> of <code>{download.size()}</code>"
                 msg += f"\n<b>Speed:</b> <code>{download.speed()}</code> <b>ETA:</b> <code>{download.eta()}</code>"
                 try:
-                    msg += f"\n<b>Seeders:</b> <code>{download.aria_download().num_seeders}</code>" \
-                           f" | <b>Peers:</b> <code>{download.aria_download().connections}</code>"
+                    msg += f"\n<b>🌱 𝐒𝐞𝐞𝐝𝐞𝐫𝐬:</b> <code>{download.aria_download().num_seeders}</code>" \
+                           f" | <b>❇️ 𝐏𝐞𝐞𝐫𝐬:</b> <code>{download.aria_download().connections}</code>"
                 except:
                     pass
                 try:
-                    msg += f"\n<b>Seeders:</b> <code>{download.torrent_info().num_seeds}</code>" \
-                           f" | <b>Leechers:</b> <code>{download.torrent_info().num_leechs}</code>"
+                    msg += f"\n<b>🌱 𝐒𝐞𝐞𝐝𝐞𝐫𝐬:</b> <code>{download.torrent_info().num_seeds}</code>" \
+                           f" | <b>💣 𝐋𝐞𝐞𝐜𝐡𝐞𝐫𝐬:</b> <code>{download.torrent_info().num_leechs}</code>"
                 except:
                     pass
-                msg += f"\n<b>To Cancel:</b> <code>/{BotCommands.CancelMirror} {download.gid()}</code>"
+                msg += f"\n<b>🧯 𝐔𝐧𝐭𝐮𝐤 𝐦𝐞𝐦𝐛𝐚𝐭𝐚𝐥𝐤𝐚𝐧 🧯:</b> <code>/{BotCommands.CancelMirror} {download.gid()}</code>"
             msg += "\n\n"
             if STATUS_LIMIT is not None and index == STATUS_LIMIT:
                 break
