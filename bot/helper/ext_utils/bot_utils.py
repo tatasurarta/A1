@@ -142,12 +142,17 @@ def get_readable_message():
                     msg += f"\n<b>🔺 𝐌𝐞𝐧𝐠𝐮𝐧𝐠𝐠𝐚𝐡:</b> <code>{get_readable_file_size(download.processed_bytes())}</code> of <code>{download.size()}</code>"
                 else:
                     msg += f"\n<b>🔻 𝐌𝐞𝐧𝐠𝐮𝐧𝐝𝐮𝐡:</b> <code>{get_readable_file_size(download.processed_bytes())}</code> of <code>{download.size()}</code>"
-                msg += f"\n<b>Speed:</b> <code>{download.speed()}</code> <b>ETA:</b> <code>{download.eta()}</code>"
+                msg += f"\n<b>⚡ 𝐊𝐞𝐜𝐞𝐩𝐚𝐭𝐚𝐧:</b> <code>{download.speed()}</code> <b>⏲️ 𝐏𝐞𝐫𝐤𝐢𝐫𝐚𝐚𝐧:</b> <code>{download.eta()}</code>"
                 try:
                     msg += f"\n<b>🌱 𝐒𝐞𝐞𝐝𝐞𝐫𝐬:</b> <code>{download.aria_download().num_seeders}</code>" \
                            f" | <b>❇️ 𝐏𝐞𝐞𝐫𝐬:</b> <code>{download.aria_download().connections}</code>"
                 except:
                     pass
+                try:
+                    msg += f"\n<b>👥 𝐏𝐞𝐧𝐠𝐠𝐮𝐧𝐚 :</b> <code>{download.message.from_user.first_name}</code>" \
+                           f" | <b>⚠️ 𝐏𝐞𝐫𝐢𝐧𝐠𝐚𝐭𝐚𝐧:</b> <code>/warn {download.message.from_user.id}</code>"
+                    except:
+                        pass
                 try:
                     msg += f"\n<b>🌱 𝐒𝐞𝐞𝐝𝐞𝐫𝐬:</b> <code>{download.torrent_info().num_seeds}</code>" \
                            f" | <b>💣 𝐋𝐞𝐞𝐜𝐡𝐞𝐫𝐬:</b> <code>{download.torrent_info().num_leechs}</code>"
@@ -158,10 +163,10 @@ def get_readable_message():
             if STATUS_LIMIT is not None and index == STATUS_LIMIT:
                 break
         if STATUS_LIMIT is not None and dick_no > STATUS_LIMIT:
-            msg += f"<b>Page:</b> <code>{PAGE_NO}</code>/<code>{pages}</code> | <b>Tasks:</b> <code>{dick_no}</code>\n"
+            msg += f"<b>📑 𝐇𝐚𝐥𝐚𝐦𝐚𝐧:</b> <code>{PAGE_NO}</code>/<code>{pages}</code> | <b>📝 𝐓𝐮𝐠𝐚𝐬:</b> <code>{dick_no}</code>\n"
             buttons = button_build.ButtonMaker()
-            buttons.sbutton("Previous", "pre")
-            buttons.sbutton("Next", "nex")
+            buttons.sbutton("👈🏼", "pre")
+            buttons.sbutton("👉🏼", "nex")
             button = InlineKeyboardMarkup(buttons.build_menu(2))
             return msg, button
         return msg, ""
