@@ -56,7 +56,7 @@ Type /{BotCommands.HelpCommand} to get a list of available commands
         sendMarkup(start_string, context.bot, update, reply_markup)
     else:
         sendMarkup(
-            '𝐔𝐩𝐬! 𝐓𝐢𝐝𝐚𝐤 𝐌𝐞𝐦𝐢𝐥𝐢𝐤𝐢 𝐎𝐭𝐨𝐫𝐢𝐬𝐚𝐬𝐢 𝐑𝐞𝐬𝐦𝐢.\n𝐘𝐚𝐧𝐠 𝐒𝐀𝐁𝐀𝐑 𝐲𝐚 𝐁𝐨𝐬𝐪𝐮 <b>slam-mirrorbot</b>.',
+            '𝐔𝐩𝐬! 𝐓𝐢𝐝𝐚𝐤 𝐌𝐞𝐦𝐢𝐥𝐢𝐤𝐢 𝐎𝐭𝐨𝐫𝐢𝐬𝐚𝐬𝐢 𝐑𝐞𝐬𝐦𝐢.\n𝐘𝐚𝐧𝐠 𝐒𝐀𝐁𝐀𝐑 𝐲𝐚 𝐁𝐨𝐬𝐪𝐮. \n<b>𝐇𝐚𝐫𝐢 𝐘𝐚𝐧𝐠 𝐁𝐞𝐫𝐚𝐭, 𝐔𝐧𝐭𝐮𝐤 𝐎𝐫𝐚𝐧𝐠 𝐘𝐚𝐧𝐠 𝐇𝐞𝐛𝐚𝐭.</b>.',
             context.bot,
             update,
             reply_markup,
