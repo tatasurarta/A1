@@ -151,8 +151,8 @@ def get_readable_message():
                 try:
                     msg += f"\n<b>👥 𝐏𝐞𝐧𝐠𝐠𝐮𝐧𝐚 :</b> <code>{download.message.from_user.first_name}</code>" \
                            f" | <b>⚠️ 𝐏𝐞𝐫𝐢𝐧𝐠𝐚𝐭𝐚𝐧:</b> <code>/warn {download.message.from_user.id}</code>"
-                    except:
-                        pass
+                except:
+                    pass
                 try:
                     msg += f"\n<b>🌱 𝐒𝐞𝐞𝐝𝐞𝐫𝐬:</b> <code>{download.torrent_info().num_seeds}</code>" \
                            f" | <b>💣 𝐋𝐞𝐞𝐜𝐡𝐞𝐫𝐬:</b> <code>{download.torrent_info().num_leechs}</code>"
