@@ -30,11 +30,11 @@ format = "%d %b %Y at %I:%M %p"
 
 # Current time in UTC
 now_utc = datetime.now(timezone('UTC'))
-print"(now_utc.strftime(format))
+print(now_utc.strftime(format))
 
 # Convert to Asia/Jakarta time zone
 now_asia = now_utc.astimezone(timezone('Asia/Jakarta'))
-print"(now_asia.strftime(format))
+print(now_asia.strftime(format))
 
 def stats(update, context):
     currentTime = get_readable_time(time.time() - botStartTime)
