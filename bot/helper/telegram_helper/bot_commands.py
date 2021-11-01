@@ -33,6 +33,7 @@ class _BotCommands:
         self.ShellCommand = 'shell'
         self.ExecHelpCommand = 'exechelp'
         self.TsHelpCommand = 'tshelp'
+        self.MediaInfoCommand = 'mediainfo'
         self.LeechSetCommand = 'leechset1'
         self.SetThumbCommand = 'setthumb1'
         self.LeechCommand = 'leech1'
