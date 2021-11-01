@@ -612,7 +612,7 @@ class GoogleDriveHelper:
             Telegraph(access_token=telegraph_token).edit_page(path = self.path[prev_page],
                                  title = 'Rumah Awan Search',
                                  author_name='Awan 1 Bot',
-                                 author_url='t.me/awanmirror1bot',
+                                 author_url='https://t.me/awanmirror1bot',
                                  html_content=content)
         return
 
@@ -809,7 +809,7 @@ class GoogleDriveHelper:
             self.path.append(Telegraph(access_token=telegraph_token).create_page(
                                                     title = 'Rumah Awan Search',
                                                     author_name='Awan 1 Bot',
-                                                    author_url='t.me/awanmirror1bot',
+                                                    author_url='https://t.me/awanmirror1bot',
                                                     html_content=content
                                                     )['path'])
 
