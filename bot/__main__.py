@@ -5,6 +5,8 @@ import asyncio
 
 from pyrogram import idle
 from sys import executable
+from datetime import datetime
+from pytz import timezone
 
 from telegram import ParseMode
 from telegram.ext import CommandHandler
@@ -19,6 +21,15 @@ from .helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper import button_build
 from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, torrent_search, delete, speedtest, count, leech_settings, mediainfo, telegraph
 
+format = %d %b %Y at %I:%M %p"
+
+# Current time in UTC
+now_utc = datetime.now(timezone('UTC'))
+print(now_utc.strftime(format))
+
+# Convert to Asia/Jakarta time zone
+now_asia = now_utc.astimezone(timezone('Asia/Jakarta'))
+print(now_asia.strftime(format))
 
 def stats(update, context):
     currentTime = get_readable_time(time.time() - botStartTime)
@@ -33,6 +44,7 @@ def stats(update, context):
     disk = psutil.disk_usage('/').percent
     stats = f'<b>👴🏻 𝐖𝐚𝐤𝐭𝐮 𝐀𝐤𝐭𝐢𝐟 𝐁𝐨𝐭 ⌚️:</b> <code>{currentTime}</code>\n' \
             f'<b>💾 𝐓𝐨𝐭𝐚𝐥 𝐑𝐮𝐚𝐧𝐠 𝐃𝐢𝐬𝐤 💾:</b> <code>{total}</code>\n' \
+            f'<b>📳 𝐒𝐮𝐝𝐚𝐡 𝐀𝐤𝐭𝐢𝐟 𝐃𝐚𝐫𝐢 🕐:{current}</b>\n' \
             f'<b>⌛️ 𝐓𝐞𝐫𝐩𝐚𝐤𝐚𝐢 ⌛️:</b> <code>{used}</code> ' \
             f'<b>🔋 𝐊𝐨𝐬𝐨𝐧𝐠 🔋:</b> <code>{free}</code>\n\n' \
             f'<b>🔺 𝐔𝐧𝐠𝐠𝐚𝐡𝐚𝐧:</b> <code>{sent}</code>\n' \
@@ -64,7 +76,7 @@ Type /{BotCommands.HelpCommand} to get a list of available commands
 
 
 def restart(update, context):
-    restart_message = sendMessage("Restarting, Please wait!", context.bot, update)
+    restart_message = sendMessage("𝐌𝐞𝐦𝐮𝐥𝐚𝐢 𝐮𝐥𝐚𝐧𝐠, 𝐇𝐚𝐫𝐚𝐩 𝐭𝐮𝐧𝐠𝐠𝐮!", context.bot, update)
     # Save restart message object in order to reply to it after restarting
     with open(".restartmsg", "w") as f:
         f.truncate(0)
@@ -154,9 +166,9 @@ help_string_telegraph = f'''<br>
 <b>/{BotCommands.StatsCommand}</b>: Show Stats of the machine the bot is hosted on
 '''
 help = Telegraph(access_token=telegraph_token).create_page(
-        title='Slam Mirrorbot Help',
-        author_name='Slam Mirrorbot',
-        author_url='https://github.com/SlamDevs/slam-mirrorbot',
+        title='Perintah Rumah Awan',
+        author_name='Rumah Awan',
+        author_url='https://t.me/awanmirrorbot1',
         html_content=help_string_telegraph,
     )["path"]
 
@@ -222,6 +234,7 @@ botcmds = [
 '''
 
 def main():
+    current = now_asia.strftime(format)
     fs_utils.start_cleanup()
     if IS_VPS:
         asyncio.get_event_loop().run_until_complete(start_server_async(PORT))
@@ -229,7 +242,7 @@ def main():
     if os.path.isfile(".restartmsg"):
         with open(".restartmsg") as f:
             chat_id, msg_id = map(int, f)
-        bot.edit_message_text("Restarted successfully!", chat_id, msg_id)
+        bot.edit_message_text("𝐁𝐞𝐫𝐡𝐚𝐬𝐢𝐥 𝐦𝐞𝐦𝐮𝐥𝐚𝐢 𝐮𝐥𝐚𝐧𝐠, 𝐒𝐞𝐦𝐮𝐚 𝐓𝐮𝐠𝐚𝐬 𝐃𝐢𝐛𝐚𝐭𝐚𝐥𝐤𝐚𝐧!", chat_id, msg_id)
         os.remove(".restartmsg")
     elif OWNER_ID:
         try:
