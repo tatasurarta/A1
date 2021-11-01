@@ -21,7 +21,7 @@ from .helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper import button_build
 from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, torrent_search, delete, speedtest, count, leech_settings, mediainfo, telegraph
 
-format = %d %b %Y at %I:%M %p"
+
 
 # Current time in UTC
 now_utc = datetime.now(timezone('UTC'))
