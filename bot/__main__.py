@@ -58,14 +58,6 @@ def stats(update, context):
             f'<b>🧭 𝐑𝐀𝐌:</b> <code>{memory}%</code> ' \
             f'<b>🖫 𝐃𝐈𝐒𝐊:</b> <code>{disk}%</code>'
     sendMessage(stats, context.bot, update)
-    
-    
-    def call_back_data(update, context):
-    global main
-    query = update.callback_query
-    query.answer()
-    main.delete()
-    main = None
 
 
 def start(update, context):
