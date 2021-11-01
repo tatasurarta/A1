@@ -3,16 +3,21 @@ import signal
 import os
 import asyncio
 
+from pyrogram import idle, filters, types, emoji
 from pyrogram import idle
 from sys import executable
 from datetime import datetime
 from pytz import timezone
+from sys import executable
+from quoters import Quote
+import threading
 
-from telegram import ParseMode
-from telegram.ext import CommandHandler
+from telegram import ParseMode, InlineKeyboardButton
+from telegram.ext import Filters, InlineQueryHandler, MessageHandler, CommandHandler, CallbackQueryHandler, CallbackContext
+from telegram.utils.helpers import escape_markdown
 from telegraph import Telegraph
 from wserver import start_server_async
-from bot import bot, app, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, IS_VPS, PORT, alive, web, OWNER_ID, AUTHORIZED_CHATS, telegraph_token
+from bot import bot, app, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, IS_VPS, PORT, alive, web, nox, OWNER_ID, AUTHORIZED_CHATS, telegraph_token, BOT_NO
 from bot.helper.ext_utils import fs_utils
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.message_utils import *
@@ -25,11 +30,11 @@ from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clon
 
 # Current time in UTC
 now_utc = datetime.now(timezone('UTC'))
-print(now_utc.strftime(format))
+print"(now_utc.strftime(format))
 
 # Convert to Asia/Jakarta time zone
 now_asia = now_utc.astimezone(timezone('Asia/Jakarta'))
-print(now_asia.strftime(format))
+print"(now_asia.strftime(format))
 
 def stats(update, context):
     currentTime = get_readable_time(time.time() - botStartTime)
@@ -53,6 +58,14 @@ def stats(update, context):
             f'<b>🧭 𝐑𝐀𝐌:</b> <code>{memory}%</code> ' \
             f'<b>🖫 𝐃𝐈𝐒𝐊:</b> <code>{disk}%</code>'
     sendMessage(stats, context.bot, update)
+    
+    
+    def call_back_data(update, context):
+    global main
+    query = update.callback_query
+    query.answer()
+    main.delete()
+    main = None
 
 
 def start(update, context):
@@ -264,6 +277,8 @@ def main():
     stats_handler = CommandHandler(BotCommands.StatsCommand,
                                    stats, filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
     log_handler = CommandHandler(BotCommands.LogCommand, log, filters=CustomFilters.owner_filter | CustomFilters.sudo_user, run_async=True)
+    del_data_msg = CallbackQueryHandler(call_back_data, pattern="stats_close")
+    dispatcher.add_handler(del_data_msg)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(ping_handler)
     dispatcher.add_handler(restart_handler)
