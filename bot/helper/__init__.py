@@ -1,7 +1,7 @@
 import asyncio
 import os
 import shlex
-
+import heroku3
 
 from functools import wraps
 from pyrogram.types import Message
