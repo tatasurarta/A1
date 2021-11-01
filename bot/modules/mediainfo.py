@@ -45,6 +45,7 @@ async def mediainfo(client, message):
 <h2>JSON</h2>
 <pre>{x_media}</pre>
 <br>
+
 <h2>DETAILS</h2>
 <pre>{out or 'Not Supported'}</pre>
 """
