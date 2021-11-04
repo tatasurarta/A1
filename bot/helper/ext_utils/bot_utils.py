@@ -137,11 +137,11 @@ def get_readable_message():
             ]:
                 msg += f"\n<code>{get_progress_bar_string(download)} {download.progress()}</code>"
                 if download.status() == MirrorStatus.STATUS_CLONING:
-                    msg += f"\n<b>♻️ 𝐊𝐥𝐨𝐧𝐢𝐧𝐠:</b> <code>{get_readable_file_size(download.processed_bytes())}</code> 𝐃𝐚𝐫𝐢 <code>{download.size()}</code>"
+                    msg += f"\n<b>♻️ 𝐊𝐥𝐨𝐧𝐢𝐧𝐠:</b> <code>{get_readable_file_size(download.processed_bytes())}</code> of <code>{download.size()}</code>"
                 elif download.status() == MirrorStatus.STATUS_UPLOADING:
-                    msg += f"\n<b>🔺 𝐌𝐞𝐧𝐠𝐮𝐧𝐠𝐠𝐚𝐡:</b> <code>{get_readable_file_size(download.processed_bytes())}</code> 𝐃𝐚𝐫𝐢 <code>{download.size()}</code>"
+                    msg += f"\n<b>🔺 𝐌𝐞𝐧𝐠𝐮𝐧𝐠𝐠𝐚𝐡:</b> <code>{get_readable_file_size(download.processed_bytes())}</code> of <code>{download.size()}</code>"
                 else:
-                    msg += f"\n<b>🔻 𝐌𝐞𝐧𝐠𝐮𝐧𝐝𝐮𝐡:</b> <code>{get_readable_file_size(download.processed_bytes())}</code> 𝐃𝐚𝐫𝐢 <code>{download.size()}</code>"
+                    msg += f"\n<b>🔻 𝐌𝐞𝐧𝐠𝐮𝐧𝐝𝐮𝐡:</b> <code>{get_readable_file_size(download.processed_bytes())}</code> of <code>{download.size()}</code>"
                 msg += f"\n<b>⚡ 𝐊𝐞𝐜𝐞𝐩𝐚𝐭𝐚𝐧:</b> <code>{download.speed()}</code> <b>⏲️ 𝐄𝐬𝐭𝐢𝐦𝐚𝐬𝐢:</b> <code>{download.eta()}</code>"
                 try:
                     msg += f"\n<b>🌱 𝐒𝐞𝐞𝐝𝐞𝐫𝐬:</b> <code>{download.aria_download().num_seeders}</code>" \
