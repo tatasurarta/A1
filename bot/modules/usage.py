@@ -51,7 +51,9 @@ def dyno_usage(update, context):
             for apps in Apps:
                 if apps.get("app_uuid") == app.id:
                     AppQuotaUsed = apps.get("quota_used") / 60
-                    AppPercent = math.floor(apps.get("quota_used") * 100 / quota)
+                    AppPercent = math.floor(
+                        apps.get("quota_used") * 100 / quota
+                    )
                     break
             else:
                 AppQuotaUsed = 0
@@ -61,14 +63,12 @@ def dyno_usage(update, context):
             AppMinutes = math.floor(AppQuotaUsed % 60)
             
             sendMessage(
-                f"<b>⛽️ Penggunaan Dyno Untuk 💻</b> <code>{app.name}</code>:\n"
-                f"• <code>{AppHours}</code> <b>Hours and</b> <code>{AppMinutes}</code> <b>Minutes - {AppPercent}%</b>\n\n"
-                "<b>💻 Sisa Dyno Bulan Ini ⏱:</b>\n"
-                f"• <code>{hours}</code> <b>Hours and</b> <code>{minutes}</code> <b>Minutes - {quota_percent}%</b>\n\n"
-                "<b>💻 Estimasi Dyno Habis ⛽️:</b>\n"
-                f"• <code>{day}</code> <b>Days</b>",
-                context.bot,
-                update
+                f"<b>⛽️ 𝐃𝐲𝐧𝐨 𝐲𝐚𝐧𝐠 𝐭𝐞𝐫𝐩𝐚𝐤𝐚𝐢 𝐮𝐧𝐭𝐮𝐤 💻</b> <code>{app.name}</code>:\n"
+                f"• <code>{AppHours}</code> <b>𝐉𝐚𝐦</b> <code>{AppMinutes}</code> <b>𝐌𝐞𝐧𝐢𝐭 - {AppPercent}%</b>\n\n"
+                "<b>💻 𝐒𝐢𝐬𝐚 𝐃𝐲𝐧𝐨 𝐮𝐧𝐭𝐮𝐤 𝐛𝐮𝐥𝐚𝐧 𝐢𝐧𝐢 ⏱:</b>\n"
+                f"• <code>{hours}</code> <b>𝐉𝐚𝐦</b> <code>{minutes}</code> <b>𝐌𝐞𝐧𝐢𝐭 - {quota_percent}%</b>\n\n"
+                "<b>💻 𝐊𝐚𝐩𝐚𝐧 𝐃𝐲𝐧𝐨 𝐤𝐚𝐦𝐮 𝐦𝐚𝐭𝐢 ⛽️:</b>\n"
+                f"• <code>{day}</code> <b>Hari</b>\n\n"
             )
             return True
 
