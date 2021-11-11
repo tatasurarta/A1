@@ -18,8 +18,7 @@ def dyno_usage(update, context):
     else:
         sendMessage(
             "Please insert your HEROKU_APP_NAME and HEROKU_API_KEY in Vars",
-            context.bot,
-            update
+            context.bot, update
         )
     useragent = (
         "Mozilla/5.0 (Linux; Android 10; SM-G975F) "
