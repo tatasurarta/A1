@@ -356,6 +356,11 @@ try:
 except KeyError:
     AS_DOCUMENT = False
 try:
+    EQUAL_SPLITS = getConfig('EQUAL_SPLITS')
+    EQUAL_SPLITS = EQUAL_SPLITS.lower() == 'true'
+except KeyError:
+    EQUAL_SPLITS = False
+try:
     CUSTOM_FILENAME = getConfig('CUSTOM_FILENAME')
     if len(CUSTOM_FILENAME) == 0:
         raise KeyError
