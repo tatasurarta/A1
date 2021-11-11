@@ -1,7 +1,11 @@
 from bot import DOWNLOAD_DIR
-from bot.helper.ext_utils.bot_utils import MirrorStatus, get_readable_file_size, get_readable_time
-from .status import Status
+from bot.helper.ext_utils.bot_utils import (MirrorStatus, 
+                                            get_readable_file_size, 
+                                            get_readable_time)
 from bot.helper.ext_utils.fs_utils import get_path_size
+
+from .status import Status
+
 
 class YoutubeDLDownloadStatus(Status):
     def __init__(self, obj, listener):
@@ -50,9 +54,10 @@ class YoutubeDLDownloadStatus(Status):
 
     def eta(self):
         try:
-            seconds = (self.size_raw() - self.processed_bytes()) / self.speed_raw()
+            seconds = (self.size_raw() - 
+                       self.processed_bytes()) / self.speed_raw()
             return f'{get_readable_time(seconds)}'
-        except:
+        except BaseException:
             return '-'
 
     def download(self):
