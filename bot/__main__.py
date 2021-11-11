@@ -26,7 +26,7 @@ from .helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper import button_build
 from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, torrent_search, delete, speedtest, count, leech_settings, mediainfo, telegraph
 
-format = "%d %b %Y at %I:%M %p"
+format = "%A, %d %B %Y %H:%M:%S"
 
 # Current time in UTC
 now_utc = datetime.now(timezone('UTC'))
@@ -204,7 +204,7 @@ help_string = f'''
 
 def bot_help(update, context):
     button = button_build.ButtonMaker()
-    button.buildbutton("Other Commands", f"https://telegra.ph/{help}")
+    button.buildbutton("Perintah Lain", f"https://telegra.ph/{help}")
     reply_markup = InlineKeyboardMarkup(button.build_menu(1))
     sendMarkup(help_string, context.bot, update, reply_markup)
 
@@ -246,11 +246,14 @@ def main():
     if os.path.isfile(".restartmsg"):
         with open(".restartmsg") as f:
             chat_id, msg_id = map(int, f)
-        bot.edit_message_text(f'𝐁𝐞𝐫𝐡𝐚𝐬𝐢𝐥 𝐦𝐞𝐦𝐮𝐥𝐚𝐢 𝐮𝐥𝐚𝐧𝐠, 𝐒𝐞𝐦𝐮𝐚 𝐓𝐮𝐠𝐚𝐬 𝐃𝐢𝐛𝐚𝐭𝐚𝐥𝐤𝐚𝐧! 𝑷𝒂𝒅𝒂 {current}', chat_id, msg_id)
+        bot.edit_message_text(
+            f'🟢 𝐁𝐞𝐫𝐡𝐚𝐬𝐢𝐥 𝐦𝐞𝐦𝐮𝐥𝐚𝐢 𝐮𝐥𝐚𝐧𝐠, 𝐒𝐞𝐦𝐮𝐚 𝐓𝐮𝐠𝐚𝐬 𝐃𝐢𝐛𝐚𝐭𝐚𝐥𝐤𝐚𝐧!\n'
+            f'⏰ {current}', chat_id, msg_id
+        )
         os.remove(".restartmsg")
     elif OWNER_ID:
         try:
-            text = f'𝐁𝐨𝐭 𝐇𝐢𝐝𝐮𝐩 𝐊𝐞𝐦𝐛𝐚𝐥𝐢! 𝐊𝐢𝐭𝐚 𝐌𝐮𝐥𝐚𝐢 𝐃𝐚𝐫𝐢 𝐍𝐎𝐋 𝐘𝐚 𝐌𝐚𝐬 𝐞 𝑷𝒂𝒅𝒂 {current}'
+            text = f'🟢 𝐁𝐨𝐭 𝐇𝐢𝐝𝐮𝐩 𝐊𝐞𝐦𝐛𝐚𝐥𝐢! 𝐊𝐢𝐭𝐚 𝐌𝐮𝐥𝐚𝐢 𝐃𝐚𝐫𝐢 𝐍𝐎𝐋 𝐘𝐚 𝐌𝐚𝐬 𝐞\n⏰ {current}'
             bot.sendMessage(chat_id=OWNER_ID, text=text, parse_mode=ParseMode.HTML)
             if AUTHORIZED_CHATS:
                 for i in AUTHORIZED_CHATS:
