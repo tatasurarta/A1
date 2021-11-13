@@ -220,7 +220,7 @@ class MirrorListener(listeners.MirrorListeners):
                 chat_id = str(self.message.chat.id)[4:]
                 msg = f"<b>Nama File:</b> <a href='https://t.me/c/{chat_id}/{self.uid}'>{link}</a>\n"
                 msg += f'<b>Jumlah File:</b> {count}\n'
-                msg += f"<b>Sumber Link:</b> <a href='https://t.me/c/{msg_id}'>{link}</a>\n"
+                msg += f"<b>Sumber Link:</b> <a href='https://t.me/c/{chat_id}/{msg_id}'>{link}</a>\n"
                 msg += f'Uploader: {uname}\n\n'
                 fmsg = ''
                 for index, item in enumerate(list(files), start=1):
