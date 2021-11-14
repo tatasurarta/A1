@@ -197,6 +197,8 @@ help_string = f'''
 
 /{BotCommands.ShellCommand}: Run commands in Shell (𝐂𝐮𝐦𝐚 𝐘𝐚𝐧𝐠 𝐏𝐮𝐧𝐲𝐚)
 
+/{BotCommands.MediaInfoCommand}: Dapatkan info terperinci tentang Media Jawab (hanya untuk file telegram)
+
 /{BotCommands.ExecHelpCommand}: Get help for Executor module (𝐂𝐮𝐦𝐚 𝐘𝐚𝐧𝐠 𝐏𝐮𝐧𝐲𝐚)
 
 /{BotCommands.TsHelpCommand}: 𝐃𝐚𝐩𝐚𝐭𝐤𝐚𝐧 𝐛𝐚𝐧𝐭𝐮𝐚𝐧 𝐮𝐧𝐭𝐮𝐤 𝐦𝐨𝐝𝐮𝐥 𝐩𝐞𝐧𝐜𝐚𝐫𝐢𝐚𝐧 𝐓𝐨𝐫𝐫𝐞𝐧𝐭
@@ -232,6 +234,7 @@ botcmds = [
         (f'{BotCommands.StatsCommand}','Bot Usage Stats'),
         (f'{BotCommands.PingCommand}','Ping the Bot'),
         (f'{BotCommands.RestartCommand}','Restart the bot [owner/sudo only]'),
+        (f'{BotCommands.MediaInfoCommand}','Dapatkan info detail tentang media yang dibalas'),
         (f'{BotCommands.LogCommand}','Get the Bot Log [owner/sudo only]'),
         (f'{BotCommands.TsHelpCommand}','Get help for Torrent search module')
     ]
