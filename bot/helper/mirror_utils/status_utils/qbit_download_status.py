@@ -2,7 +2,7 @@
 # (c) https://github.com/SlamDevs/slam-mirrorbot
 # All rights reserved
 
-from bot import DOWNLOAD_DIR, LOGGER, get_client
+from bot import DOWNLOAD_DIR, LOGGER
 from bot.helper.ext_utils.bot_utils import MirrorStatus, get_readable_file_size, get_readable_time
 from .status import Status
 from time import sleep
@@ -60,6 +60,8 @@ class QbDownloadStatus(Status):
             return MirrorStatus.STATUS_DOWNLOADING + " (Metadata)"
         elif download == "pausedDL":
             return MirrorStatus.STATUS_PAUSE
+        elif download == "checkingUP":
+            return MirrorStatus.STATUS_CHECKING
         else:
             return MirrorStatus.STATUS_DOWNLOADING
 
