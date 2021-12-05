@@ -13,11 +13,11 @@ import shutil
 from telegram.ext import CommandHandler
 from telegram import InlineKeyboardMarkup
 from fnmatch import fnmatch
+from requests.exceptions import RequestException
 
 from bot import Interval, INDEX_URL, BUTTON_FOUR_NAME, BUTTON_FOUR_URL, BUTTON_FIVE_NAME, BUTTON_FIVE_URL, \
                 BUTTON_SIX_NAME, BUTTON_SIX_URL, BLOCK_MEGA_FOLDER, BLOCK_MEGA_LINKS, VIEW_LINK, aria2, \
-                dispatcher, DOWNLOAD_DIR, download_dict, download_dict_lock, SHORTENER, SHORTENER_API, \
-                TAR_UNZIP_LIMIT, TG_SPLIT_SIZE
+                dispatcher, DOWNLOAD_DIR, download_dict, download_dict_lock, SHORTENER, SHORTENER_API, TAR_UNZIP_LIMIT, TG_SPLIT_SIZE, LOGGER
 from bot.helper.ext_utils import fs_utils, bot_utils
 from bot.helper.ext_utils.shortenurl import short_url
 from bot.helper.ext_utils.exceptions import DirectDownloadLinkException, NotSupportedExtractionArchive
@@ -44,7 +44,7 @@ ariaDlManager.start_listener()
 
 
 class MirrorListener(listeners.MirrorListeners):
-    def __init__(self, bot, update, pswd, isTar=False, extract=False, isZip=False, isQbit=False, isLeech=False):
+    def __init__(self, bot, update, isTar=False, extract=False, isZip=False, isQbit=False, isLeech=False, pswd=None):
         super().__init__(bot, update)
         self.isTar = isTar
         self.extract = extract
@@ -325,15 +325,16 @@ class MirrorListener(listeners.MirrorListeners):
         else:
             update_all_messages()
 
-def _mirror(bot, update, isTar=False, extract=False, isZip=False, isQbit=False, isLeech=False):
+def _mirror(bot, update, isTar=False, extract=False, isZip=False, isQbit=False, isLeech=False, pswd=None):
     mesg = update.message.text.split('\n')
     message_args = mesg[0].split(' ')
     name_args = mesg[0].split('|')
     qbitsel = False
     try:
         link = message_args[1]
-        if link == "s":
+        if link.startswith("s ") or link == "s":
             qbitsel = True
+            message_args = mesg[0].split(' ', maxsplit=2)
             link = message_args[2]
         if link.startswith("|") or link.startswith("pswd: "):
             link = ''
@@ -341,9 +342,8 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False, isQbit=False, 
         link = ''
     try:
         name = name_args[1]
+        name = name.split(' pswd: ')[0]
         name = name.strip()
-        if name.startswith("pswd: "):
-            name = ''
     except IndexError:
         name = ''
     try:
@@ -393,19 +393,39 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False, isQbit=False, 
                 return
             else:
                 link = file.get_file().file_path
-    if bot_utils.is_url(link) and not bot_utils.is_magnet(link) and not os.path.exists(link) and isQbit:
-        resp = requests.get(link)
-        if resp.status_code == 200:
-            file_name = str(time.time()).replace(".", "") + ".torrent"
-            open(file_name, "wb").write(resp.content)
-            link = f"{file_name}"
-        else:
-            sendMessage("ERROR: link got HTTP response:" + resp.status_code, bot, update)
+    if len(mesg) > 1:
+        try:
+            ussr = urllib.parse.quote(mesg[1], safe='')
+            pssw = urllib.parse.quote(mesg[2], safe='')
+            link = link.split("://", maxsplit=1)
+            link = f'{link[0]}://{ussr}:{pssw}@{link[1]}'
+        except IndexError:
+            pass
+    LOGGER.info(link)
+    gdtot_link = bot_utils.is_gdtot_link(link)
+    if not bot_utils.is_url(link) and not bot_utils.is_magnet(link) and not os.path.exists(link):
+        help_msg = "<b>Send link along with command line:</b>"
+        help_msg += "\n<code>/command</code> {link} |newname pswd: mypassword [𝚣𝚒𝚙/𝚞𝚗𝚣𝚒𝚙]"
+        help_msg += "\n\n<b>By replying to link or file:</b>"
+        help_msg += "\n<code>/command</code> |newname pswd: mypassword [𝚣𝚒𝚙/𝚞𝚗𝚣𝚒𝚙]"
+        help_msg += "\n\n<b>Direct link authorization:</b>"
+        help_msg += "\n<code>/command</code> {link} |newname pswd: mypassword\nusername\npassword"
+        help_msg += "\n\n<b>Qbittorrent selection:</b>"
+        help_msg += "\n<code>/qbcommand</code> <b>s</b> {link} or by replying to {file}"
+        return sendMessage(help_msg, bot, update)                
+    elif bot_utils.is_url(link) and not bot_utils.is_magnet(link) and not os.path.exists(link) and isQbit:
+        try:
+            resp = requests.get(link)
+            if resp.status_code == 200:
+                file_name = str(time.time()).replace(".", "") + ".torrent"
+                open(file_name, "wb").write(resp.content)
+                link = f"{file_name}"
+            else:
+                sendMessage("ERROR: link got HTTP response:" + resp.status_code, bot, update)
+                return
+        except Exception as e:
+            LOGGER.error(str(e))
             return
-
-    elif not bot_utils.is_url(link) and not bot_utils.is_magnet(link):
-        sendMessage('No download source provided', bot, update)
-        return
     elif not os.path.exists(link) and not bot_utils.is_mega_link(link) and not bot_utils.is_gdrive_link(link) and not bot_utils.is_magnet(link):
         try:
             link = direct_link_generator(link)
@@ -442,7 +462,9 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False, isQbit=False, 
             download_dict[listener.uid] = download_status
         sendStatusMessage(update, bot)
         drive.download(link)
-
+        if gdtot_link:
+            drive.deletefile(link)
+            
     elif bot_utils.is_mega_link(link):
         if BLOCK_MEGA_LINKS:
             sendMessage("Mega links are blocked!", bot, update)
