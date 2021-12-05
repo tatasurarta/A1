@@ -1,18 +1,17 @@
 import os
-import traceback
 
 from pyrogram import filters
-from pyrogram.types import Message
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from telegraph import upload_file
 
 from bot import app, dispatcher, telegraph
 from telegram.ext import CommandHandler
 
-@app.on_message(filters.command(['tgm']))
+@app.on_message(filters.command(['telegraph']))
 async def tgm(client, message):
     replied = message.reply_to_message
     if not replied:
-        await message.reply("Reply to a supported media file")
+        await message.reply("Balas ke File Media yang mendukung")
         return
     if not (
         (replied.photo and replied.photo.file_size <= 5242880)
@@ -30,7 +29,7 @@ async def tgm(client, message):
             and replied.document.file_size <= 5242880
         )
     ):
-        await message.reply("Not supported!")
+        await message.reply("Tidak Mendukung!")
         return
     download_location = await client.download_media(
         message=message.reply_to_message,
@@ -41,33 +40,46 @@ async def tgm(client, message):
     except Exception as document:
         await message.reply(message, text=document)
     else:
-        await message.reply(
-            f"**link : **[telegraph](https://telegra.ph{response[0]})",
+        link = f"https://telegra.ph{response[0]})"
+        markup = InlineKeyboardMarkup(
+        [[
+        InlineKeyboardButton('📰 Telegra.ph Link', url=link)
+        ]]
+    )
+        await message.reply_text(
+            text=f"<b>🗣️Diupload oleh </b> <a href='tg://user?id={download.message.from_user.id}'>{download.message.from_user.first_name}</a>",
+            reply_markup=markup,                 
             disable_web_page_preview=True,
         )
+        
     finally:
         os.remove(download_location)
 
-@app.on_message(filters.command(['tgt']))
+
+@app.on_message(filters.command(['telegraphtext']))
 async def tgt(_, message: Message):
     reply = message.reply_to_message
 
     if not reply or not reply.text:
-        return await message.reply("𝐁𝐚𝐥𝐚𝐬 𝐤𝐞 𝐩𝐞𝐬𝐚𝐧 𝐭𝐞𝐤𝐬 🙃")
+        return await message.reply("Balaslah ke pesan teks")
 
-    if len(message.command) < 2:
-        return await message.reply("**😑𝐆𝐮𝐧𝐚𝐤𝐚𝐧:**\n /tgt [𝐣𝐮𝐝𝐮𝐥 𝐭𝐞𝐤𝐬]")
-
-    page_name = message.text.split(None, 1)[1]
+    page_name = f"Rumah Awan "
     page = telegraph.create_page(page_name, html_content=reply.text.html)
-    return await message.reply(
-        f"**link : **[telegraph]({page['url']})",
+    url = f"{page['url']}"
+    markup = InlineKeyboardMarkup(
+        [[
+        InlineKeyboardButton('📰 Telegra.ph Link', url=url)
+        ]]
+    )
+    return await message.reply_text(
+        text=f"<b>🗣️Diupload oleh </b> <a href='tg://user?id={download.message.from_user.id}'>{download.message.from_user.first_name}</a>",
+        reply_markup=markup,                 
         disable_web_page_preview=True,
     )
+       
         
-        
-TGM_HANDLER = CommandHandler("tgm", tgm)
-TGT_HANDLER = CommandHandler("tgt", tgt)
+TELEGRAPH_HANDLER = CommandHandler("telegraph", tgm)
+TELEGRAPHTEXT_HANDLER = CommandHandler("telegraphtext", tgt)
 
-dispatcher.add_handler(TGM_HANDLER)
-dispatcher.add_handler(TGT_HANDLER)
+dispatcher.add_handler(TELEGRAPH_HANDLER)
+dispatcher.add_handler(TELEGRAPHTEXT_HANDLER)
