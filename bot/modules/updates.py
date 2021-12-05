@@ -14,7 +14,7 @@ from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 from pyrogram import filters
 
 from bot import app, OWNER_ID, UPSTREAM_REPO, UPSTREAM_BRANCH, bot
-from bot.helper import runcmd, get_text, HEROKU_URL
+from bot.helper import get_text, HEROKU_URL
 from bot.helper.telegram_helper.bot_commands import BotCommands
 
 REPO_ = UPSTREAM_REPO
@@ -24,12 +24,12 @@ BRANCH_ = UPSTREAM_BRANCH
 
 @app.on_message(filters.command([BotCommands.UpdateCommand, f'{BotCommands.UpdateCommand}@{bot.username}']) & filters.user(OWNER_ID))
 async def update_it(client, message):
-    msg_ = await message.reply_text("`Updating Please Wait!`")
+    msg_ = await message.reply_text("`Mengupdate Sabar YAA!`")
     try:
         repo = Repo()
     except GitCommandError:
         return await msg_.edit(
-            "**Invalid Git Command. Please Report This Bug To [Owner](https://t.me/OdierBambi)**"
+            "**Perintah Git Tidak Valid. Harap Melaporkan Bug Ini Ke [Owner](https://t.me/tatasurarta)**"
         )
     except InvalidGitRepositoryError:
         repo = Repo.init()
@@ -79,4 +79,4 @@ async def update_it(client, message):
         except BaseException as error:
             await msg_.edit(f"**Updater Error** \nTraceBack : `{error}`")
             return repo.__del__()
-        await msg_.edit(f"`Updated Sucessfully! \n\nCheck your config with` `/{BotCommands.ConfigMenuCommand}`")
+        await msg_.edit(f"`Sukses Mengupdate! \n\nCheck your config with` `/{BotCommands.ConfigMenuCommand}`")
