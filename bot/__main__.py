@@ -2,29 +2,33 @@ import shutil, psutil
 import signal
 import os
 import asyncio
+import time
+import subprocess
 
 from pyrogram import idle, filters, types, emoji
 from pyrogram import idle
 from sys import executable
+from quoters import Quote
 from datetime import datetime
 from pytz import timezone
-from sys import executable
-from quoters import Quote
+from telegram import ParseMode, InlineKeyboardMarkup
+from telegram.ext import CommandHandler
 import threading
 
-from telegram import ParseMode, InlineKeyboardButton
 from telegram.ext import Filters, InlineQueryHandler, MessageHandler, CommandHandler, CallbackQueryHandler, CallbackContext
 from telegram.utils.helpers import escape_markdown
 from telegraph import Telegraph
 from wserver import start_server_async
-from bot import bot, app, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, IS_VPS, PORT, alive, web, OWNER_ID, AUTHORIZED_CHATS, telegraph_token
+from bot import bot, app, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, IS_VPS, PORT, alive, web, nox, OWNER_ID, AUTHORIZED_CHATS, LOGGER, telegraph_token, BOT_NO
 from bot.helper.ext_utils import fs_utils
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.message_utils import *
+from .helper.ext_utils.telegraph_helper import telegraph
 from .helper.ext_utils.bot_utils import get_readable_file_size, get_readable_time
 from .helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper import button_build
-from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, torrent_search, delete, usage, speedtest, count, leech_settings, mediainfo, telegraph
+from .modules.rssfeeds import rss_init
+from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, torrent_search, delete, speedtest, count, rssfeeds, leech_settings, search, usage, mediainfo, telegraph
 
 format = "%A, %d %B %Y %H:%M:%S"
 
@@ -82,12 +86,18 @@ Type /{BotCommands.HelpCommand} to get a list of available commands
 def restart(update, context):
     restart_message = sendMessage("𝐌𝐞𝐦𝐮𝐥𝐚𝐢 𝐮𝐥𝐚𝐧𝐠, 𝐇𝐚𝐫𝐚𝐩 𝐭𝐮𝐧𝐠𝐠𝐮!", context.bot, update)
     # Save restart message object in order to reply to it after restarting
+    fs_utils.clean_all()
+    alive.kill()
+    process = psutil.Process(web.pid)
+    for proc in process.children(recursive=True):
+        proc.kill()
+    process.kill()
+    nox.kill()
+    subprocess.run(["python3", "update.py"])
+    # Save restart message object in order to reply to it after restarting
     with open(".restartmsg", "w") as f:
         f.truncate(0)
         f.write(f"{restart_message.chat.id}\n{restart_message.message_id}\n")
-    fs_utils.clean_all()
-    alive.terminate()
-    web.terminate()
     os.execl(executable, executable, "-m", "bot")
 
 
@@ -165,6 +175,8 @@ help_string_telegraph = f'''<br>
 <br><br>
 <b>/{BotCommands.ListCommand}</b> [search term]: Searches the search term in the Google Drive, If found replies with the link
 <br><br>
+<b>/{BotCommands.SearchCommand}</b> [query]: Search for torrents with API
+<br>sites: <code>rarbg, 1337x, yts, etzv, tgx, torlock, piratebay, nyaasi, ettv</code><br><br>
 <b>/{BotCommands.StatusCommand}</b>: Shows a status of all the downloads
 <br><br>
 <b>/{BotCommands.StatsCommand}</b>: Show Stats of the machine the bot is hosted on
@@ -201,6 +213,8 @@ help_string = f'''
 
 /{BotCommands.ExecHelpCommand}: Get help for Executor module (𝐂𝐮𝐦𝐚 𝐘𝐚𝐧𝐠 𝐏𝐮𝐧𝐲𝐚)
 
+/{BotCommands.RssHelpCommand}:  Get help for RSS feeds module
+
 /{BotCommands.TsHelpCommand}: 𝐃𝐚𝐩𝐚𝐭𝐤𝐚𝐧 𝐛𝐚𝐧𝐭𝐮𝐚𝐧 𝐮𝐧𝐭𝐮𝐤 𝐦𝐨𝐝𝐮𝐥 𝐩𝐞𝐧𝐜𝐚𝐫𝐢𝐚𝐧 𝐓𝐨𝐫𝐫𝐞𝐧𝐭
 '''
 
@@ -236,6 +250,7 @@ botcmds = [
         (f'{BotCommands.RestartCommand}','Restart the bot [owner/sudo only]'),
         (f'{BotCommands.MediaInfoCommand}','Dapatkan info detail tentang media yang dibalas'),
         (f'{BotCommands.LogCommand}','Get the Bot Log [owner/sudo only]'),
+        (f'{BotCommands.RssHelpCommand}','Get help for RSS feeds module'),
         (f'{BotCommands.TsHelpCommand}','Get help for Torrent search module')
     ]
 '''
