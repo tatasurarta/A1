@@ -6,6 +6,7 @@ import random
 import string
 import subprocess
 import requests
+import json
 
 import aria2p
 import qbittorrentapi as qba
@@ -34,6 +35,16 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 LOGGER = logging.getLogger(__name__)
 
+NETRC_FILE_URL = os.environ.get('NETRC_FILE_URL', None)
+if NETRC_FILE_URL is not None:
+    res = requests.get(NETRC_FILE_URL)
+    if res.status_code == 200:
+        with open('.netrc', 'wb+') as f:
+            f.write(res.content)
+            f.close()
+    else:
+        logging.error(res.status_code)
+        
 CONFIG_FILE_URL = os.environ.get('CONFIG_FILE_URL', None)
 if CONFIG_FILE_URL is not None:
     res = requests.get(CONFIG_FILE_URL)
@@ -46,14 +57,45 @@ if CONFIG_FILE_URL is not None:
 
 load_dotenv('config.env')
 
-SERVER_PORT = os.environ.get('SERVER_PORT', None)
+
+def getConfig(name: str):
+    return os.environ[name]
+
+try:
+    NETRC_URL = getConfig('NETRC_URL')
+    if len(NETRC_URL) == 0:
+        raise KeyError
+    try:
+        res = requests.get(NETRC_URL)
+        if res.status_code == 200:
+            with open('.netrc', 'wb+') as f:
+                f.write(res.content)
+                f.close()
+        else:
+            logging.error(f"Failed to download .netrc {res.status_code}")
+    except Exception as e:
+        logging.error(str(e))
+except KeyError:
+    pass
+try:
+    SERVER_PORT = getConfig('SERVER_PORT')
+    if len(SERVER_PORT) == 0:
+        raise KeyError
+except KeyError:
+    SERVER_PORT = 80
+    
 PORT = os.environ.get('PORT', SERVER_PORT)
 web = subprocess.Popen([f"gunicorn wserver:start_server --bind 0.0.0.0:{PORT} --worker-class aiohttp.GunicornWebWorker"], shell=True)
-time.sleep(1)
 alive = subprocess.Popen(["python3", "alive.py"])
 subprocess.run(["mkdir", "-p", "qBittorrent/config"])
 subprocess.run(["cp", "qBittorrent.conf", "qBittorrent/config/qBittorrent.conf"])
 subprocess.run(["qbittorrent-nox", "-d", "--profile=."])
+time.sleep(0.5)
+
+
+
+
+
 Interval = []
 DRIVES_NAMES = []
 DRIVES_IDS = []
@@ -100,18 +142,32 @@ def get_client() -> qba.TorrentsAPIMixIn:
         logging.error(str(e))
         return None
 
+"""
+trackers = subprocess.check_output(["curl -Ns https://raw.githubusercontent.com/XIU2/TrackersListCollection/master/all.txt https://ngosang.github.io/trackerslist/trackers_all_http.txt https://newtrackon.com/api/all | awk '$0'"], shell=True).decode('utf-8')
+
+trackerslist = set(trackers.split("\n"))
+trackerslist.remove("")
+trackerslist = "\n\n".join(trackerslist)
+get_client().application.set_preferences({"add_trackers":f"{trackerslist}"})
+"""
+
 
 DOWNLOAD_DIR = None
 BOT_TOKEN = None
+BOT_NO = ""
 
 download_dict_lock = threading.Lock()
 status_reply_dict_lock = threading.Lock()
+search_dict_lock = threading.Lock()
 # Key: update.effective_chat.id
 # Value: telegram.Message
 status_reply_dict = {}
 # Key: update.message.message_id
 # Value: An object of Status
 download_dict = {}
+# key: search_id
+# Value: client, search_results, total_results, total_pages, pageNo, start
+search_dict = {}
 # Stores list of users and chats the bot is authorized to use in
 AUTHORIZED_CHATS = set()
 SUDO_USERS = set()
@@ -143,6 +199,7 @@ except:
     pass
 try:
     BOT_TOKEN = getConfig('BOT_TOKEN')
+    CHAT_NAME = getConfig('CHAT_NAME')
     parent_id = getConfig('GDRIVE_FOLDER_ID')
     DOWNLOAD_DIR = getConfig('DOWNLOAD_DIR')
     if not DOWNLOAD_DIR.endswith("/"):
@@ -233,6 +290,8 @@ except KeyError:
     HEROKU_APP_NAME = None
 try:
     UPTOBOX_TOKEN = getConfig('UPTOBOX_TOKEN')
+    if len(UPTOBOX_TOKEN) == 0:
+        raise KeyError
 except KeyError:
     logging.warning('UPTOBOX_TOKEN not provided!')
     UPTOBOX_TOKEN = None
@@ -325,6 +384,11 @@ try:
 except KeyError:
     BLOCK_MEGA_LINKS = False
 try:
+    WEB_PINCODE = getConfig('WEB_PINCODE')
+    WEB_PINCODE = WEB_PINCODE.lower() == 'true'
+except KeyError:
+    WEB_PINCODE = False
+try:
     SHORTENER = getConfig('SHORTENER')
     SHORTENER_API = getConfig('SHORTENER_API')
     if len(SHORTENER) == 0 or len(SHORTENER_API) == 0:
@@ -337,6 +401,27 @@ try:
     IGNORE_PENDING_REQUESTS = IGNORE_PENDING_REQUESTS.lower() == 'true'
 except KeyError:
     IGNORE_PENDING_REQUESTS = False
+try:
+    CHAT_ID = getConfig('CHAT_ID')
+    DELAY = int(getConfig('DELAY'))
+    INIT_FEEDS = getConfig('INIT_FEEDS')
+    CUSTOM_MESSAGES = getConfig('CUSTOM_MESSAGES')        
+except:
+    pass 
+
+try:
+    FINISHED_PROGRESS_STR = getConfig('FINISHED_PROGRESS_STR')
+    if len(FINISHED_PROGRESS_STR) == 0:
+        FINISHED_PROGRESS_STR = '●'
+except KeyError:
+    FINISHED_PROGRESS_STR = '●'
+try:
+    UNFINISHED_PROGRESS_STR = getConfig('UNFINISHED_PROGRESS_STR')
+    if len(UNFINISHED_PROGRESS_STR) == 0:
+        UNFINISHED_PROGRESS_STR = '○'
+except KeyError:
+    UNFINISHED_PROGRESS_STR = '○'
+    
 try:
     BASE_URL = getConfig('BASE_URL_OF_BOT')
     if len(BASE_URL) == 0:
@@ -365,6 +450,14 @@ try:
         raise KeyError
 except KeyError:
     CUSTOM_FILENAME = None
+try:
+    PHPSESSID = getConfig('PHPSESSID')
+    CRYPT = getConfig('CRYPT')
+    if len(PHPSESSID) == 0 or len(CRYPT) == 0:
+        raise KeyError
+except KeyError:
+    PHPSESSID = None
+    CRYPT = None
 try:
     RECURSIVE_SEARCH = getConfig('RECURSIVE_SEARCH')
     RECURSIVE_SEARCH = RECURSIVE_SEARCH.lower() == 'true'
@@ -417,6 +510,22 @@ try:
             raise KeyError
 except KeyError:
     pass
+try:
+    YT_COOKIES_URL = getConfig('YT_COOKIES_URL')
+    if len(YT_COOKIES_URL) == 0:
+        raise KeyError
+    try:
+        res = requests.get(YT_COOKIES_URL)
+        if res.status_code == 200:
+            with open('cookies.txt', 'wb+') as f:
+                f.write(res.content)
+                f.close()
+        else:
+            logging.error(f"Failed to download cookies.txt, link got HTTP response: {res.status_code}")
+    except Exception as e:
+        logging.error(str(e))
+except KeyError:
+    pass
 
 DRIVES_NAMES.append("Main")
 DRIVES_IDS.append(parent_id)
@@ -435,6 +544,12 @@ if os.path.exists('drive_folder'):
             except IndexError as e:
                 INDEX_URLS.append(None)
 
-updater = tg.Updater(token=BOT_TOKEN)
+SEARCH_PLUGINS = os.environ.get('SEARCH_PLUGINS', None)
+if SEARCH_PLUGINS is not None:
+    SEARCH_PLUGINS = json.loads(SEARCH_PLUGINS)
+    qbclient = get_client()
+    qbclient.search_install_plugin(SEARCH_PLUGINS)               
+
+updater = tg.Updater(token=BOT_TOKEN, request_kwargs={'read_timeout': 30, 'connect_timeout': 10})
 bot = updater.bot
 dispatcher = updater.dispatcher
