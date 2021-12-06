@@ -1,8 +1,8 @@
-from bot import aria2, download_dict_lock, STOP_DUPLICATE, TORRENT_DIRECT_LIMIT, TAR_UNZIP_LIMIT
+from bot import aria2, download_dict_lock, STOP_DUPLICATE, TORRENT_DIRECT_LIMIT, ZIP_UNZIP_LIMIT, LOGGER
 from bot.helper.mirror_utils.upload_utils.gdriveTools import GoogleDriveHelper
-from bot.helper.ext_utils.bot_utils import *
+from bot.helper.ext_utils.bot_utils import is_magnet, getDownloadByGid, new_thread, get_readable_file_size
 from bot.helper.mirror_utils.status_utils.aria_download_status import AriaDownloadStatus
-from bot.helper.telegram_helper.message_utils import *
+from bot.helper.telegram_helper.message_utils import sendMarkup
 import threading
 from aria2p import API
 from time import sleep
@@ -15,15 +15,15 @@ class AriaDownloadHelper:
 
     @new_thread
     def __onDownloadStarted(self, api, gid):
-        if STOP_DUPLICATE or TORRENT_DIRECT_LIMIT is not None or TAR_UNZIP_LIMIT is not None:
+        if STOP_DUPLICATE or TORRENT_DIRECT_LIMIT is not None or ZIP_UNZIP_LIMIT is not None:
             sleep(1)
             dl = getDownloadByGid(gid)
             download = aria2.get_download(gid)
         if STOP_DUPLICATE and dl is not None and not dl.getListener().isLeech:
             LOGGER.info('Checking File/Folder if already in Drive...')
             sname = aria2.get_download(gid).name
-            if dl.getListener().isTar:
-                sname = sname + ".zip" if dl.getListener().isZip else sname + ".tar"
+            if dl.getListener().isZip:
+                sname = sname + ".zip"
             if dl.getListener().extract:
                 smsg = None
             else:
@@ -34,16 +34,16 @@ class AriaDownloadHelper:
                 aria2.remove([download], force=True)
                 sendMarkup("Here are the search results:", dl.getListener().bot, dl.getListener().update, button)
                 return
-        if (TORRENT_DIRECT_LIMIT is not None or TAR_UNZIP_LIMIT is not None) and dl is not None:
+        if (TORRENT_DIRECT_LIMIT is not None or ZIP_UNZIP_LIMIT is not None) and dl is not None:
             sleep(1)
             size = aria2.get_download(gid).total_length
-            if dl.getListener().isTar or dl.getListener().extract:
-                is_tar_ext = True
-                mssg = f'Tar/Unzip limit is {TAR_UNZIP_LIMIT}'
+            if dl.getListener().isZip or dl.getListener().extract:
+                is_zip_ext = True
+                mssg = f'Zip/Unzip limit is {ZIP_UNZIP_LIMIT}'
             else:
-                is_tar_ext = False
+                is_zip_ext = False
                 mssg = f'Torrent/Direct limit is {TORRENT_DIRECT_LIMIT}'
-            result = check_limit(size, TORRENT_DIRECT_LIMIT, TAR_UNZIP_LIMIT, is_tar_ext)
+            result = check_limit(size, TORRENT_DIRECT_LIMIT, ZIP_UNZIP_LIMIT, is_zip_ext)
             if result:
                 dl.getListener().onDownloadError(f'{mssg}.\nYour File/Folder size is {get_readable_file_size(size)}')
                 aria2.remove([download], force=True)
