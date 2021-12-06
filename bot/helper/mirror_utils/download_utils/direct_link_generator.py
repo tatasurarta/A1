@@ -35,7 +35,7 @@ cookies = {"PHPSESSID": PHPSESSID, "crypt": CRYPT}
 def direct_link_generator(link: str):
     """ direct links generator """
     if 'youtube.com' in link or 'youtu.be' in link:
-        raise DirectDownloadLinkException(f"Gunakan /{BotCommands.WatchCommand} untuk mencerminkan tautan YouTube\nGunakan /{BotCommands.TarWatchCommand} Untuk membuat .tar daftar putar YouTube")
+        raise DirectDownloadLinkException(f"Gunakan /{BotCommands.WatchCommand} untuk mencerminkan tautan YouTube\nGunakan /{BotCommands.ZipWatchCommand} Untuk membuat .zip daftar putar YouTube")
     elif 'zippyshare.com' in link:
         return zippy_share(link)
     elif 'yadi.sk' in link or 'disk.yandex.com' in link:
