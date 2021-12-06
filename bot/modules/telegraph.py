@@ -78,8 +78,8 @@ async def tgt(_, message: Message):
     )
        
         
-TELEGRAPH_HANDLER = CommandHandler("telegraph", tgm)
-TELEGRAPHTEXT_HANDLER = CommandHandler("telegraphtext", tgt)
+TELEGRAPH_HANDLER = CommandHandler("telegraph", "tgm")
+TELEGRAPHTEXT_HANDLER = CommandHandler("telegraphtext", "tgt")
 
 dispatcher.add_handler(TELEGRAPH_HANDLER)
 dispatcher.add_handler(TELEGRAPHTEXT_HANDLER)
