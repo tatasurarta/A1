@@ -17,7 +17,7 @@ from .mirror import MirrorListener
 listener_dict = {}
 
 
-def _watch(bot, update, isTar=False, isZip=False, isLeech=False, pswd=None):
+def _watch(bot, update, isZip=False, isLeech=False, pswd=None):
     mssg = update.message.text
     message_args = mssg.split(' ', maxsplit=2)
     name_args = mssg.split('|', maxsplit=1)
@@ -55,7 +55,7 @@ def _watch(bot, update, isTar=False, isZip=False, isLeech=False, pswd=None):
         help_msg += "\n<code>/command</code> |newname pswd: mypassword [𝚣𝚒𝚙]"
         return sendMessage(help_msg, bot, update)
 
-    listener = MirrorListener(bot, update, isTar=isTar, isZip=isZip, isLeech=isLeech, pswd=pswd)
+    listener = MirrorListener(bot, update, isZip=isZip, isLeech=isLeech, pswd=pswd)
     listener_dict[msg_id] = listener, user_id, link, name
 
     buttons = button_build.ButtonMaker()
@@ -134,38 +134,27 @@ def select_format(update, context):
 def watch(update, context):
     _watch(context.bot, update)
 
-def watchTar(update, context):
-    _watch(context.bot, update, True)
-
 def watchZip(update, context):
     _watch(context.bot, update, True, True)
 
 def leechWatch(update, context):
     _watch(context.bot, update, isLeech=True)
 
-def leechWatchTar(update, context):
-    _watch(context.bot, update, True, isLeech=True)
-
 def leechWatchZip(update, context):
     _watch(context.bot, update, True, True, True)
 
 watch_handler = CommandHandler(BotCommands.WatchCommand, watch,
                                 filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
-tar_watch_handler = CommandHandler(BotCommands.TarWatchCommand, watchTar,
-                                    filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
 zip_watch_handler = CommandHandler(BotCommands.ZipWatchCommand, watchZip,
                                     filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
 leech_watch_handler = CommandHandler(BotCommands.LeechWatchCommand, leechWatch,
                                 filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
-leech_tar_watch_handler = CommandHandler(BotCommands.LeechTarWatchCommand, leechWatchTar,
-                                    filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
 leech_zip_watch_handler = CommandHandler(BotCommands.LeechZipWatchCommand, leechWatchZip,
                                     filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
 quality_handler = CallbackQueryHandler(select_format, pattern="qual", run_async=True)
 
 dispatcher.add_handler(watch_handler)
-dispatcher.add_handler(tar_watch_handler)
 dispatcher.add_handler(zip_watch_handler)
 dispatcher.add_handler(leech_watch_handler)
-dispatcher.add_handler(leech_tar_watch_handler)
 dispatcher.add_handler(leech_zip_watch_handler)
+dispatcher.add_handler(quality_handler)
