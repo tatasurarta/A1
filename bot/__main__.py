@@ -117,15 +117,11 @@ help_string_telegraph = f'''<br>
 <br><br>
 <b>/{BotCommands.MirrorCommand}</b> [download_url][magnet_link]: 𝐌𝐞𝐦𝐮𝐥𝐚𝐢 𝐌𝐢𝐫𝐫𝐨𝐫𝐢𝐧𝐠 𝐤𝐞 𝐆𝐃𝐫𝐢𝐯𝐞.
 <br><br>
-<b>/{BotCommands.TarMirrorCommand}</b> [download_url][magnet_link]: 𝐌𝐮𝐥𝐚𝐢 𝐦𝐢𝐫𝐫𝐨𝐫𝐢𝐧𝐠 𝐝𝐚𝐧 𝐮𝐧𝐠𝐠𝐚𝐡 𝐟𝐢𝐥𝐞 𝐲𝐚𝐧𝐠 𝐝𝐢𝐚𝐫𝐬𝐢𝐩𝐤𝐚𝐧 (.𝐭𝐚𝐫) 𝐤𝐞 𝐯𝐞𝐫𝐬𝐢 𝐝𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐧𝐲𝐚.
-<br><br>
 <b>/{BotCommands.ZipMirrorCommand}</b> [download_url][magnet_link]: 𝐌𝐮𝐥𝐚𝐢 𝐦𝐢𝐫𝐫𝐨𝐫𝐢𝐧𝐠 𝐝𝐚𝐧 𝐮𝐧𝐠𝐠𝐚𝐡 𝐟𝐢𝐥𝐞 𝐲𝐚𝐧𝐠 𝐝𝐢𝐚𝐫𝐬𝐢𝐩𝐤𝐚𝐧 (.𝐳𝐢𝐩) 𝐤𝐞 𝐯𝐞𝐫𝐬𝐢 𝐝𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐧𝐲𝐚.
 <br><br>
 <b>/{BotCommands.UnzipMirrorCommand}</b> [download_url][magnet_link]: 𝐌𝐮𝐥𝐚𝐢 𝐦𝐢𝐫𝐫𝐨𝐫𝐢𝐧𝐠 𝐝𝐚𝐧 𝐣𝐢𝐤𝐚 𝐟𝐢𝐥𝐞 𝐲𝐚𝐧𝐠 𝐝𝐢𝐮𝐧𝐝𝐮𝐡 𝐚𝐝𝐚𝐥𝐚𝐡 𝐚𝐫𝐬𝐢𝐩 𝐣𝐞𝐧𝐢𝐬 𝐚𝐩𝐚 𝐩𝐮𝐧, 𝐦𝐞𝐧𝐠-𝐞𝐤𝐬𝐭𝐫𝐚𝐤𝐧𝐲𝐚 𝐤𝐞 𝐆𝐨𝐨𝐠𝐥𝐞 𝐃𝐫𝐢𝐯𝐞.
 <br><br>
 <b>/{BotCommands.QbMirrorCommand}</b> [magnet_link]: 𝐌𝐮𝐥𝐚𝐢 𝐦𝐢𝐫𝐫𝐨𝐫 𝐦𝐞𝐧𝐠𝐠𝐮𝐧𝐚𝐤𝐚𝐧 𝐪𝐁𝐢𝐭𝐭𝐨𝐫𝐫𝐞𝐧𝐭, Use <b>/{BotCommands.QbMirrorCommand} s</b> 𝐮𝐧𝐭𝐮𝐤 𝐦𝐞𝐦𝐢𝐥𝐢𝐡 𝐟𝐢𝐥𝐞 𝐬𝐞𝐛𝐞𝐥𝐮𝐦 𝐦𝐞𝐧𝐠𝐮𝐧𝐝𝐮𝐡.
-<br><br>
-<b>/{BotCommands.QbTarMirrorCommand}</b> [magnet_link]: 𝐌𝐮𝐥𝐚𝐢 𝐦𝐢𝐫𝐫𝐨𝐫 𝐦𝐞𝐧𝐠𝐠𝐮𝐧𝐚𝐤𝐚𝐧 𝐪𝐁𝐢𝐭𝐭𝐨𝐫𝐫𝐞𝐧𝐭 𝐝𝐚𝐧 𝐮𝐧𝐠𝐠𝐚𝐡 𝐟𝐢𝐥𝐞 𝐲𝐚𝐧𝐠 𝐝𝐢𝐚𝐫𝐬𝐢𝐩𝐤𝐚𝐧 (.𝐭𝐚𝐫) 𝐤𝐞 𝐯𝐞𝐫𝐬𝐢 𝐝𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐧𝐲𝐚.
 <br><br>
 <b>/{BotCommands.QbZipMirrorCommand}</b> [magnet_link]: 𝐌𝐮𝐥𝐚𝐢 𝐦𝐢𝐫𝐫𝐨𝐫 𝐦𝐞𝐧𝐠𝐠𝐮𝐧𝐚𝐤𝐚𝐧 𝐪𝐁𝐢𝐭𝐭𝐨𝐫𝐫𝐞𝐧𝐭 𝐝𝐚𝐧 𝐮𝐧𝐠𝐠𝐚𝐡 𝐟𝐢𝐥𝐞 𝐲𝐚𝐧𝐠 𝐝𝐢𝐚𝐫𝐬𝐢𝐩𝐤𝐚𝐧 (.𝐳𝐢𝐩) 𝐤𝐞 𝐯𝐞𝐫𝐬𝐢 𝐝𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐧𝐲𝐚.
 <br><br>
@@ -133,15 +129,11 @@ help_string_telegraph = f'''<br>
 <br><br>
 <b>/{BotCommands.LeechCommand}</b> [download_url][magnet_link]: 𝐌𝐮𝐥𝐚𝐢 𝐮𝐩𝐥𝐨𝐚𝐝 𝐤𝐞 𝐓𝐞𝐥𝐞𝐠𝐫𝐚𝐦, Use <b>/{BotCommands.LeechCommand} s</b> to select files before leeching
 <br><br>
-<b>/{BotCommands.TarLeechCommand}</b> [download_url][magnet_link]:  𝐌𝐮𝐥𝐚𝐢 𝐦𝐞𝐧𝐠𝐮𝐧𝐠𝐠𝐚𝐡 𝐤𝐞 𝐓𝐞𝐥𝐞𝐠𝐫𝐚𝐦 𝐝𝐞𝐧𝐠𝐚𝐧 𝐟𝐨𝐫𝐦𝐚𝐭 𝐬𝐞𝐛𝐚𝐠𝐚𝐢 (.𝐭𝐚𝐫)
-<br><br>
 <b>/{BotCommands.ZipLeechCommand}</b> [download_url][magnet_link]: 𝐌𝐮𝐥𝐚𝐢 𝐦𝐞𝐧𝐠𝐮𝐧𝐠𝐠𝐚𝐡 𝐤𝐞 𝐓𝐞𝐥𝐞𝐠𝐫𝐚𝐦 𝐝𝐞𝐧𝐠𝐚𝐧 𝐟𝐨𝐫𝐦𝐚𝐭 𝐬𝐞𝐛𝐚𝐠𝐚𝐢 (.𝐳𝐢𝐩)
 <br><br>
 <b>/{BotCommands.UnzipLeechCommand}</b> [download_url][magnet_link]: 𝐌𝐮𝐥𝐚𝐢 𝐦𝐞𝐧𝐠𝐮𝐧𝐠𝐠𝐚𝐡 𝐤𝐞 𝐓𝐞𝐥𝐞𝐠𝐫𝐚𝐦 𝐝𝐚𝐧 𝐣𝐢𝐤𝐚 𝐟𝐢𝐥𝐞 𝐲𝐚𝐧𝐠 𝐝𝐢𝐮𝐧𝐝𝐮𝐡 𝐚𝐝𝐚𝐥𝐚𝐡 𝐚𝐫𝐬𝐢𝐩 𝐣𝐞𝐧𝐢𝐬 𝐚𝐩𝐚 𝐩𝐮𝐧, 𝐦𝐞𝐧𝐠-𝐞𝐤𝐬𝐭𝐫𝐚𝐤𝐧𝐲𝐚 𝐤𝐞 𝐓𝐞𝐥𝐞𝐠𝐫𝐚𝐦
 <br><br>
 <b>/{BotCommands.QbLeechCommand}</b> [magnet_link]: Start leeching to Telegram using qBittorrent, Use <b>/{BotCommands.QbLeechCommand} s</b> to select files before leeching
-<br><br>
-<b>/{BotCommands.QbTarLeechCommand}</b> [magnet_link]: Start leeching to Telegram using qBittorrent and upload it as (.tar)
 <br><br>
 <b>/{BotCommands.QbZipLeechCommand}</b> [magnet_link]: Start leeching to Telegram using qBittorrent and upload it as (.zip)
 <br><br>
@@ -155,13 +147,9 @@ help_string_telegraph = f'''<br>
 <br><br>
 <b>/{BotCommands.WatchCommand}</b> [youtube-dl supported link]: Mirror through youtube-dl. Click <b>/{BotCommands.WatchCommand}</b> for more help
 <br><br>
-<b>/{BotCommands.TarWatchCommand}</b> [youtube-dl supported link]: Mirror through youtube-dl and tar before uploading
-<br><br>
 <b>/{BotCommands.ZipWatchCommand}</b> [youtube-dl supported link]: Mirror through youtube-dl and zip before uploading
 <br><br>
 <b>/{BotCommands.LeechWatchCommand}</b> [youtube-dl supported link]: Leech through youtube-dl 
-<br><br>
-<b>/{BotCommands.LeechTarWatchCommand}</b> [youtube-dl supported link]: Leech through youtube-dl and tar before uploading 
 <br><br>
 <b>/{BotCommands.LeechZipWatchCommand}</b> [youtube-dl supported link]: Leech through youtube-dl and zip before uploading 
 <br><br>
@@ -228,18 +216,15 @@ def bot_help(update, context):
 botcmds = [
         (f'{BotCommands.HelpCommand}','Get Detailed Help'),
         (f'{BotCommands.MirrorCommand}', 'Start Mirroring'),
-        (f'{BotCommands.TarMirrorCommand}','Start mirroring and upload as .tar'),
         (f'{BotCommands.ZipMirrorCommand}','Start mirroring and upload as .zip'),
         (f'{BotCommands.UnzipMirrorCommand}','Extract files'),
         (f'{BotCommands.QbMirrorCommand}','Start Mirroring using qBittorrent'),
-        (f'{BotCommands.QbTarMirrorCommand}','Start mirroring and upload as .tar using qb'),
         (f'{BotCommands.QbZipMirrorCommand}','Start mirroring and upload as .zip using qb'),
         (f'{BotCommands.QbUnzipMirrorCommand}','Extract files using qBitorrent'),
         (f'{BotCommands.CloneCommand}','Copy file/folder to Drive'),
         (f'{BotCommands.CountCommand}','Count file/folder of Drive link'),
         (f'{BotCommands.DeleteCommand}','Delete file from Drive'),
         (f'{BotCommands.WatchCommand}','Mirror Youtube-dl support link'),
-        (f'{BotCommands.TarWatchCommand}','Mirror Youtube playlist link as .tar'),
         (f'{BotCommands.ZipWatchCommand}','Mirror Youtube playlist link as .zip'),
         (f'{BotCommands.CancelMirror}','Cancel a task'),
         (f'{BotCommands.CancelAllCommand}','Cancel all tasks'),
