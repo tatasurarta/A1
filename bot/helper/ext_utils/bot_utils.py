@@ -3,6 +3,8 @@ import re
 import threading
 import time
 import math
+import psutil
+import shutil
 
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot import dispatcher, download_dict, download_dict_lock, STATUS_LIMIT
@@ -108,7 +110,7 @@ def get_progress_bar_string(status):
     p = min(max(p, 0), 100)
     cFull = p // 8
     cPart = p % 8 - 1
-    p_str = '█' * cFull
+    p_str = '▶' * cFull
     if cPart >= 0:
         p_str += PROGRESS_INCOMPLETE[cPart]
     p_str += ' ' * (PROGRESS_MAX_SIZE - cFull)
@@ -229,6 +231,10 @@ def is_url(url: str):
 
 def is_gdrive_link(url: str):
     return "drive.google.com" in url
+
+def is_gdtot_link(url: str):
+    url = re.match(r'https?://.*\.gdtot\.\S+', url)
+    return bool(url)
 
 def is_mega_link(url: str):
     return "mega.nz" in url or "mega.co.nz" in url
