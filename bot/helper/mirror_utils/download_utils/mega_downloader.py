@@ -6,7 +6,7 @@ import os
 from bot.helper.ext_utils.bot_utils import new_thread, get_mega_link_type, get_readable_file_size, check_limit
 from bot.helper.mirror_utils.status_utils.mega_download_status import MegaDownloadStatus
 from bot.helper.mirror_utils.upload_utils.gdriveTools import GoogleDriveHelper
-from bot import MEGA_LIMIT, STOP_DUPLICATE, TAR_UNZIP_LIMIT
+from bot import MEGA_LIMIT, STOP_DUPLICATE, ZIP_UNZIP_LIMIT
 import random
 import string
 
@@ -170,8 +170,8 @@ class MegaDownloadHelper:
         if STOP_DUPLICATE and not listener.isLeech:
             LOGGER.info('Checking File/Folder if already in Drive')
             mname = node.getName()
-            if listener.isTar:
-                mname = mname + ".zip" if listener.isZip else mname + ".tar"
+            if listener.isZip:
+                mname = mname + ".zip"
             if listener.extract:
                 smsg = None
             else:
@@ -182,15 +182,15 @@ class MegaDownloadHelper:
                 sendMarkup(msg1, listener.bot, listener.update, button)
                 executor.continue_event.set()
                 return
-        if MEGA_LIMIT is not None or TAR_UNZIP_LIMIT is not None:
+        if MEGA_LIMIT is not None or ZIP_UNZIP_LIMIT is not None:
             size = api.getSize(node)
-            if listener.isTar or listener.extract:
-                is_tar_ext = True
-                msg3 = f'Failed, Tar/Unzip limit is {TAR_UNZIP_LIMIT}.\nYour File/Folder size is {get_readable_file_size(api.getSize(node))}.'
+            if listener.isZip or listener.extract:
+                is_zip_ext = True
+                msg3 = f'Failed, Zip/Unzip limit is {ZIP_UNZIP_LIMIT}.\nYour File/Folder size is {get_readable_file_size(api.getSize(node))}.'
             else:
-                is_tar_ext = False
+                is_zip_ext = False
                 msg3 = f'Failed, Mega limit is {MEGA_LIMIT}.\nYour File/Folder size is {get_readable_file_size(api.getSize(node))}.'
-            result = check_limit(size, MEGA_LIMIT, TAR_UNZIP_LIMIT, is_tar_ext)
+            result = check_limit(size, MEGA_LIMIT, ZIP_UNZIP_LIMIT, is_zip_ext)
             if result:
                 sendMessage(msg3, listener.bot, listener.update)
                 executor.continue_event.set()
