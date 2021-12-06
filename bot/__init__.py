@@ -324,6 +324,14 @@ try:
 except KeyError:
     MEGA_LIMIT = None
 try:
+    ZIP_UNZIP_LIMIT = getConfig('ZIP_UNZIP_LIMIT')
+    if len(ZIP_UNZIP_LIMIT) == 0:
+        raise KeyError
+    else:
+        ZIP_UNZIP_LIMIT = float(ZIP_UNZIP_LIMIT)
+except KeyError:
+    ZIP_UNZIP_LIMIT = None
+try:
     TAR_UNZIP_LIMIT = getConfig('TAR_UNZIP_LIMIT')
     if len(TAR_UNZIP_LIMIT) == 0:
         TAR_UNZIP_LIMIT = None
