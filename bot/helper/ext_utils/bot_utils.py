@@ -32,10 +32,7 @@ class MirrorStatus:
     STATUS_ARCHIVING = "𝐒𝐞𝐝𝐚𝐧𝐠 𝐃𝐢 𝐀𝐫𝐬𝐢𝐩𝐤𝐚𝐧, 𝐒𝐚𝐛𝐚𝐫 𝐁𝐨𝐬𝐪𝐮...🔐"
     STATUS_EXTRACTING = "𝐒𝐞𝐝𝐚𝐧𝐠 𝐃𝐢 𝐄𝐤𝐬𝐭𝐫𝐚𝐤, 𝐒𝐚𝐛𝐚𝐫 𝐁𝐨𝐬𝐪𝐮...📂"
     STATUS_SPLITTING = "𝐒𝐞𝐝𝐚𝐧𝐠 𝐃𝐢 𝐏𝐢𝐬𝐚𝐡, 𝐒𝐚𝐛𝐚𝐫 𝐁𝐨𝐬𝐪𝐮...✂️"
-
-
-PROGRESS_MAX_SIZE = 100 // 8
-PROGRESS_INCOMPLETE = ['▏', '▎', '▍', '▌', '▋', '▊', '▉']
+    STATUS_CHECKING = "𝐒𝐞𝐝𝐚𝐧𝐠 𝐃𝐢 𝐜𝐞𝐤, 𝐘𝐚𝐧𝐠 𝐒𝐀𝐁𝐀𝐑 𝐘𝐚 𝐁𝐨𝐬...📝"
 
 SIZE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
 
