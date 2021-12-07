@@ -1,8 +1,8 @@
-from bot import aria2, download_dict_lock, STOP_DUPLICATE, TORRENT_DIRECT_LIMIT, ZIP_UNZIP_LIMIT, LOGGER
+from bot import aria2, download_dict_lock, download_dict, STOP_DUPLICATE, TORRENT_DIRECT_LIMIT, ZIP_UNZIP_LIMIT, LOGGER
 from bot.helper.mirror_utils.upload_utils.gdriveTools import GoogleDriveHelper
 from bot.helper.ext_utils.bot_utils import is_magnet, getDownloadByGid, new_thread, get_readable_file_size
 from bot.helper.mirror_utils.status_utils.aria_download_status import AriaDownloadStatus
-from bot.helper.telegram_helper.message_utils import sendMarkup
+from bot.helper.telegram_helper.message_utils import sendMarkup, update_all_messages
 import threading
 from aria2p import API
 from time import sleep
@@ -50,19 +50,16 @@ class AriaDownloadHelper:
                 return
         update_all_messages()
 
-    def __onDownloadComplete(self, api: API, gid):
+    def __onDownloadComplete(self, api, gid):
         dl = getDownloadByGid(gid)
-        download = aria2.get_download(gid)
+        download = api.get_download(gid)
         if download.followed_by_ids:
             new_gid = download.followed_by_ids[0]
-            new_download = aria2.get_download(new_gid)
+            new_download = api.get_download(new_gid)
             if dl is None:
                 dl = getDownloadByGid(new_gid)
             with download_dict_lock:
                 download_dict[dl.uid()] = AriaDownloadStatus(new_gid, dl.getListener())
-                if new_download.is_torrent:
-                    download_dict[dl.uid()].is_torrent = True
-            update_all_messages()
             LOGGER.info(f'Changed gid from {gid} to {new_gid}')
         elif dl:
             threading.Thread(target=dl.getListener().onDownloadComplete).start()
