@@ -306,6 +306,12 @@ except KeyError:
     INDEX_URL = None
     INDEX_URLS.append(None)
 try:
+    SEARCH_API_LINK = getConfig('SEARCH_API_LINK')
+    if len(SEARCH_API_LINK) == 0:
+        raise KeyError
+except KeyError:
+    SEARCH_API_LINK = None
+try:
     TORRENT_DIRECT_LIMIT = getConfig('TORRENT_DIRECT_LIMIT')
     if len(TORRENT_DIRECT_LIMIT) == 0:
         TORRENT_DIRECT_LIMIT = None
