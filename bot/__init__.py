@@ -552,11 +552,20 @@ if os.path.exists('drive_folder'):
             except IndexError as e:
                 INDEX_URLS.append(None)
 
-SEARCH_PLUGINS = os.environ.get('SEARCH_PLUGINS', None)
-if SEARCH_PLUGINS is not None:
+try:
+    SEARCH_PLUGINS = getConfig('SEARCH_PLUGINS')
+    if len(SEARCH_PLUGINS) == 0:
+        raise KeyError
     SEARCH_PLUGINS = json.loads(SEARCH_PLUGINS)
     qbclient = get_client()
-    qbclient.search_install_plugin(SEARCH_PLUGINS)               
+    qb_plugins = qbclient.search_plugins()
+    if qb_plugins:
+        for plugin in qb_plugins:
+            p = plugin['name']
+            qbclient.search_uninstall_plugin(names=p)
+    qbclient.search_install_plugin(SEARCH_PLUGINS)
+except KeyError:
+    SEARCH_PLUGINS = None               
 
 updater = tg.Updater(token=BOT_TOKEN, request_kwargs={'read_timeout': 30, 'connect_timeout': 10})
 bot = updater.bot
