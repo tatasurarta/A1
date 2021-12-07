@@ -47,7 +47,7 @@ async def tgm(client, message):
         ]]
     )
         await message.reply_text(
-            text=f"<b>🗣️Diupload oleh </b> <a href='tg://user?id={download.message.from_user.id}'>{download.message.from_user.first_name}</a>",
+            text=f"<b>🗣️Diupload oleh </b> <a href='tg://user?id={message.from_user.id}'>{message.from_user.first_name}</a>",
             reply_markup=markup,                 
             disable_web_page_preview=True,
         )
