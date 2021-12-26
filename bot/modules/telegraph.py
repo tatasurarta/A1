@@ -40,7 +40,7 @@ async def tgm(client, message):
     except Exception as document:
         await message.reply(message, text=document)
     else:
-        link = f"https://telegra.ph{response[0]})"
+        link = f"https://telegra.ph{response[0]}"
         markup = InlineKeyboardMarkup(
         [[
         InlineKeyboardButton('📰 Telegra.ph Link', url=link)
@@ -63,7 +63,7 @@ async def tgt(_, message: Message):
     if not reply or not reply.text:
         return await message.reply("Balaslah ke pesan teks")
 
-    page_name = f"Rumah Awan "
+    page_name = f"Rumah Awan"
     page = telegraph.create_page(page_name, html_content=reply.text.html)
     url = f"{page['url']}"
     markup = InlineKeyboardMarkup(
