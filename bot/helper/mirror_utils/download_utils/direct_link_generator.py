@@ -300,7 +300,7 @@ def pixeldrain(url: str) -> str:
     if resp["success"]:
         return dl_link
     else:
-        raise DirectDownloadLinkException("ERROR: Tidak dapat mengunduh karena {}.".format(resp.text["value"]))
+        raise DirectDownloadLinkException("ERROR: Cant't download due {}.".format(resp.text["value"]))
 
 
 def antfiles(url: str) -> str:
@@ -539,19 +539,3 @@ def gdtot(url: str) -> str:
     s3 = BeautifulSoup(requests.get(s2, headers=headers, cookies=cookies).content, 'html.parser')
     status = s3.find('h4').text
     raise DirectDownloadLinkException(f"ERROR: {status}")
-    
-    
-    
-def useragent():
-    """
-    useragent random setter
-    """
-    useragents = BeautifulSoup(
-        requests.get(
-            "https://developers.whatismybrowser.com/"
-            "useragents/explore/operating_system_name/android/"
-        ).content,
-        "lxml",
-    ).findAll("td", {"class": "useragent"})
-    user_agent = choice(useragents)
-    return user_agent.text
